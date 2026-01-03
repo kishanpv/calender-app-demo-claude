@@ -7,8 +7,11 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+    <!-- Skip Links for Keyboard Navigation -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Top Navigation Bar -->
-    <header class="top-nav">
+    <header class="top-nav" role="banner">
         <div class="nav-left">
             <button class="menu-btn" aria-label="Menu">☰</button>
             <div class="logo">
@@ -56,19 +59,19 @@
         </aside>
 
         <!-- Main Calendar -->
-        <main class="calendar-container">
+        <main id="main-content" class="calendar-container" role="main">
 
-            <div class="calendar-weekdays">
-                <div class="weekday">Sun</div>
-                <div class="weekday">Mon</div>
-                <div class="weekday">Tue</div>
-                <div class="weekday">Wed</div>
-                <div class="weekday">Thu</div>
-                <div class="weekday">Fri</div>
-                <div class="weekday">Sat</div>
+            <div class="calendar-weekdays" role="row">
+                <div class="weekday" role="columnheader">Sun</div>
+                <div class="weekday" role="columnheader">Mon</div>
+                <div class="weekday" role="columnheader">Tue</div>
+                <div class="weekday" role="columnheader">Wed</div>
+                <div class="weekday" role="columnheader">Thu</div>
+                <div class="weekday" role="columnheader">Fri</div>
+                <div class="weekday" role="columnheader">Sat</div>
             </div>
 
-            <div id="calendarGrid" class="calendar-grid"></div>
+            <div id="calendarGrid" class="calendar-grid" role="grid" aria-label="Calendar dates"></div>
         </main>
     </div>
 

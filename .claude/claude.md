@@ -7,3 +7,11 @@
 6. Keep every change simple and minimal. Avoid big rewrites.
 7. At the end, add a review section in todo.md summarizing the changes.
 8. Push it to git https://github.com/kishanpv
+
+# Claude Project Configuration
+
+## commands
+
+- name: ally-check
+  description: Review the app for accessibility (a11y) best practices
+  file: commands/ally-check.md

@@ -57,11 +57,25 @@ function renderCalendar(month, year) {
             eventsToShow.forEach(event => {
                 const eventItem = document.createElement('div');
                 eventItem.className = 'event-item';
+                eventItem.setAttribute('tabindex', '0');
+                eventItem.setAttribute('role', 'button');
+                const eventLabel = event.time ? `${event.title} at ${event.time}` : event.title;
+                eventItem.setAttribute('aria-label', `Edit event: ${eventLabel} on ${dateString}`);
                 eventItem.textContent = event.time ? `${event.time} ${event.title}` : event.title;
-                eventItem.onclick = (e) => {
+
+                const editEvent = (e) => {
                     e.stopPropagation();
                     openEditEventModal(event.id);
                 };
+
+                eventItem.onclick = editEvent;
+
+                eventItem.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        editEvent(e);
+                    }
+                });
+
                 eventsContainer.appendChild(eventItem);
             });
 
@@ -97,6 +111,9 @@ function renderCalendar(month, year) {
 function createDayCell(day, dateString, isOtherMonth = false, isToday = false) {
     const dayCell = document.createElement('div');
     dayCell.className = 'calendar-day';
+    dayCell.setAttribute('role', 'gridcell');
+    dayCell.setAttribute('tabindex', '0');
+    dayCell.setAttribute('aria-label', `${dateString}, ${isToday ? 'today' : ''}`);
 
     if (isOtherMonth) {
         dayCell.classList.add('other-month');
@@ -111,10 +128,19 @@ function createDayCell(day, dateString, isOtherMonth = false, isToday = false) {
     dayNumber.textContent = day;
     dayCell.appendChild(dayNumber);
 
-    // Add click handler to open add event modal for this date
-    dayCell.addEventListener('click', () => {
+    // Add click and keyboard handler to open add event modal for this date
+    const openEvent = () => {
         if (!isOtherMonth) {
             openAddEventModal(dateString);
+        }
+    };
+
+    dayCell.addEventListener('click', openEvent);
+
+    dayCell.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openEvent();
         }
     });
 
@@ -202,14 +228,29 @@ function renderMiniCalendar(month, year) {
 
         const miniDay = document.createElement('div');
         miniDay.className = 'mini-day';
-        if (isToday) miniDay.classList.add('today');
+        miniDay.setAttribute('tabindex', '0');
+        miniDay.setAttribute('role', 'button');
+        miniDay.setAttribute('aria-label', `${monthNames[month]} ${day}, ${year}`);
+        if (isToday) {
+            miniDay.classList.add('today');
+            miniDay.setAttribute('aria-current', 'date');
+        }
         miniDay.textContent = day;
 
-        miniDay.addEventListener('click', () => {
+        const selectDate = () => {
             currentMonth = month;
             currentYear = year;
             renderCalendar(month, year);
             openAddEventModal(dateString);
+        };
+
+        miniDay.addEventListener('click', selectDate);
+
+        miniDay.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectDate();
+            }
         });
 
         miniGrid.appendChild(miniDay);
