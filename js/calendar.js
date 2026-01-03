@@ -148,11 +148,121 @@ function nextMonth() {
     renderCalendar(currentMonth, currentYear);
 }
 
+// Navigate to today
+function goToToday() {
+    const today = new Date();
+    currentMonth = today.getMonth();
+    currentYear = today.getFullYear();
+    renderCalendar(currentMonth, currentYear);
+    renderMiniCalendar(currentMonth, currentYear);
+}
+
+// Render mini calendar in sidebar
+function renderMiniCalendar(month, year) {
+    const miniGrid = document.getElementById('miniCalendarGrid');
+    if (!miniGrid) return;
+
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const firstDayIndex = firstDay.getDay();
+    const lastDate = lastDay.getDate();
+    const prevLastDay = new Date(year, month, 0);
+    const prevLastDate = prevLastDay.getDate();
+
+    // Update mini month header
+    document.getElementById('miniMonthYear').textContent = `${monthNames[month]} ${year}`;
+
+    miniGrid.innerHTML = '';
+
+    // Add weekday headers
+    const weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    weekdays.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.className = 'mini-weekday';
+        dayHeader.textContent = day;
+        miniGrid.appendChild(dayHeader);
+    });
+
+    // Add previous month's trailing days
+    for (let i = firstDayIndex; i > 0; i--) {
+        const day = prevLastDate - i + 1;
+        const miniDay = document.createElement('div');
+        miniDay.className = 'mini-day other-month';
+        miniDay.textContent = day;
+        miniGrid.appendChild(miniDay);
+    }
+
+    // Add current month's days
+    const today = new Date();
+    const todayString = today.toISOString().split('T')[0];
+
+    for (let day = 1; day <= lastDate; day++) {
+        const dateString = formatDate(year, month, day);
+        const isToday = dateString === todayString;
+
+        const miniDay = document.createElement('div');
+        miniDay.className = 'mini-day';
+        if (isToday) miniDay.classList.add('today');
+        miniDay.textContent = day;
+
+        miniDay.addEventListener('click', () => {
+            currentMonth = month;
+            currentYear = year;
+            renderCalendar(month, year);
+            openAddEventModal(dateString);
+        });
+
+        miniGrid.appendChild(miniDay);
+    }
+
+    // Fill remaining cells
+    const totalCells = miniGrid.children.length - 7; // Subtract weekday headers
+    const remainingCells = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+    for (let day = 1; day <= remainingCells; day++) {
+        const miniDay = document.createElement('div');
+        miniDay.className = 'mini-day other-month';
+        miniDay.textContent = day;
+        miniGrid.appendChild(miniDay);
+    }
+}
+
 // Initialize calendar navigation
 function initializeCalendar() {
-    document.getElementById('prevMonth').addEventListener('click', prevMonth);
-    document.getElementById('nextMonth').addEventListener('click', nextMonth);
+    document.getElementById('prevMonth').addEventListener('click', () => {
+        prevMonth();
+        renderMiniCalendar(currentMonth, currentYear);
+    });
 
-    // Render initial calendar
+    document.getElementById('nextMonth').addEventListener('click', () => {
+        nextMonth();
+        renderMiniCalendar(currentMonth, currentYear);
+    });
+
+    // Today button
+    const todayBtn = document.getElementById('todayBtn');
+    if (todayBtn) {
+        todayBtn.addEventListener('click', goToToday);
+    }
+
+    // Mini calendar navigation
+    const miniPrev = document.getElementById('miniPrevMonth');
+    const miniNext = document.getElementById('miniNextMonth');
+
+    if (miniPrev) {
+        miniPrev.addEventListener('click', () => {
+            prevMonth();
+            renderMiniCalendar(currentMonth, currentYear);
+        });
+    }
+
+    if (miniNext) {
+        miniNext.addEventListener('click', () => {
+            nextMonth();
+            renderMiniCalendar(currentMonth, currentYear);
+        });
+    }
+
+    // Render initial calendars
     renderCalendar(currentMonth, currentYear);
+    renderMiniCalendar(currentMonth, currentYear);
 }

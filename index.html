@@ -7,17 +7,56 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <header class="app-header">
-            <h1>My Calendar</h1>
-        </header>
-
-        <main class="calendar-container">
-            <div class="calendar-header">
-                <button id="prevMonth" class="nav-btn" aria-label="Previous month">&lt;</button>
-                <h2 id="monthYear"></h2>
-                <button id="nextMonth" class="nav-btn" aria-label="Next month">&gt;</button>
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <button class="menu-btn" aria-label="Menu">☰</button>
+            <div class="logo">
+                <span class="logo-icon">📅</span>
+                <span class="logo-text">Calendar</span>
             </div>
+        </div>
+        <div class="nav-center">
+            <button id="todayBtn" class="today-btn">Today</button>
+            <button id="prevMonth" class="nav-arrow" aria-label="Previous month">‹</button>
+            <button id="nextMonth" class="nav-arrow" aria-label="Next month">›</button>
+            <h2 id="monthYear" class="current-date"></h2>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn" aria-label="Search">🔍</button>
+            <button class="icon-btn" aria-label="Settings">⚙️</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <button id="createEventBtn" class="create-btn">
+                <span class="plus-icon">+</span>
+                <span>Create</span>
+            </button>
+
+            <div class="mini-calendar">
+                <div class="mini-calendar-header">
+                    <button id="miniPrevMonth" class="mini-nav" aria-label="Previous">&lt;</button>
+                    <span id="miniMonthYear" class="mini-month"></span>
+                    <button id="miniNextMonth" class="mini-nav" aria-label="Next">&gt;</button>
+                </div>
+                <div id="miniCalendarGrid" class="mini-grid"></div>
+            </div>
+
+            <div class="calendar-list">
+                <h3>My calendars</h3>
+                <label class="calendar-item">
+                    <input type="checkbox" checked>
+                    <span class="color-dot" style="background: #1a73e8;"></span>
+                    <span>Events</span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Main Calendar -->
+        <main class="calendar-container">
 
             <div class="calendar-weekdays">
                 <div class="weekday">Sun</div>
@@ -30,8 +69,6 @@
             </div>
 
             <div id="calendarGrid" class="calendar-grid"></div>
-
-            <button id="addEventBtn" class="add-event-btn" aria-label="Add new event">+ Add Event</button>
         </main>
     </div>
 

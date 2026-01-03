@@ -58,7 +58,7 @@ function initializeModal() {
     const cancelBtn = document.getElementById('cancelBtn');
     const form = document.getElementById('eventForm');
     const deleteBtn = document.getElementById('deleteEventBtn');
-    const addEventBtn = document.getElementById('addEventBtn');
+    const createEventBtn = document.getElementById('createEventBtn');
 
     // Close modal on overlay click
     overlay.addEventListener('click', closeModal);
@@ -96,10 +96,12 @@ function initializeModal() {
     // Handle delete button click
     deleteBtn.addEventListener('click', handleEventDelete);
 
-    // Add event button
-    addEventBtn.addEventListener('click', () => {
-        openAddEventModal();
-    });
+    // Create event button
+    if (createEventBtn) {
+        createEventBtn.addEventListener('click', () => {
+            openAddEventModal();
+        });
+    }
 
     // Clear validation errors on input
     document.getElementById('eventTitle').addEventListener('input', () => {

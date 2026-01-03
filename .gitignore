@@ -16,3 +16,9 @@ npm-debug.log*
 
 # Dependencies (if added later)
 node_modules/
+
+# Screenshots and images
+*.png
+*.PNG
+*.jpg
+*.jpeg
