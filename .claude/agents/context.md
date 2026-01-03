@@ -1,0 +1,2 @@
+# prompt for doc-helper --> create a docs-helper-agent scan the calendar app and generate a simple README.md file. Include setup instructions, features, and an example usage section. Keep it beginner-friendly.
+# prompt for deploying --> deploy this agent in netlify
